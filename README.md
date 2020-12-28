@@ -1,2 +1,2 @@
 # impact2d
-A simple light weight 2d physics engine in JS
+A simple light weight 2d physics engine
