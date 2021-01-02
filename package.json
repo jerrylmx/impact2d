@@ -1,0 +1,19 @@
+{
+  "name": "impact2d",
+  "version": "1.0.2",
+  "description": "Simple 2d physics",
+  "main": "./dist/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jerrylmx/impact2d.git"
+  },
+  "author": "Jerry Liu",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jerrylmx/impact2d/issues"
+  },
+  "homepage": "https://github.com/jerrylmx/impact2d#readme"
+}
