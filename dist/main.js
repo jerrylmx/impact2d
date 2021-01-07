@@ -227,10 +227,9 @@ class Collision {
     return true;
   }
 
-  static resolvePenatration(body1, body2, pen, n1, p=0.6, slop=0.01, delta) {
-    if (body1.isShadow && body2.isShadow) return;
+  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.01, delta) {
     if (body1.static && !body2.static || body2.static && !body1.static) {
-      p = 0.8;
+      p = 0.4;
       slop=0.01;
     }
     let mag = (Math.max(pen - slop, 0.0)/(body1.mi + body2.mi))*p;
@@ -292,14 +291,12 @@ class Collision {
     pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].polyPolyIntersect(vertices1, vertices2);
     if (pts.length < 2) return;
 
-    // let exactPts = Collision.searchImpact(body1, body2, delta);
-    // pts = exactPts.length >= 2? exactPts : pts;
-
-
     body1.c.add(body2.id);
     body2.c.add(body1.id);
     let axis = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub({x: body1.x, y: body1.y}, {x: body2.x, y: body2.y}));
     let l; //= Util.vSub(pts[0], pts[pts.length-1]);
+    let l0;
+    let l1;
 
     let minLoss = 1;
     for (let i = 0; i < pts.length; i++) {
@@ -309,6 +306,8 @@ class Collision {
         if (score < minLoss) {
           minLoss = score;
           l = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(pts[i], pts[j]);
+          l0 = pts[i];
+          l1 = pts[j];
         }
       }
     }
@@ -329,21 +328,51 @@ class Collision {
     Collision.integrateOmega(body1, body2, pts.length);
 
     // Pen
-    let oneInTwo = [pts[0]];
-    let twoInOne = [pts[0]];
+    // let oneInTwo = [pts[0]];
+    // let twoInOne = [pts[0]];
+    // let faces1 = Util.getFaces(vertices1);
+    // let faces2 = Util.getFaces(vertices2);
+    // vertices1.forEach((v1) => {
+    //   if (Util.isInPolygon(faces2, v1)) oneInTwo.push(v1);
+    // });
+    // vertices2.forEach((v2) => {
+    //   if (Util.isInPolygon(faces1, v2)) twoInOne.push(v2);
+    // });
+    // let tangent = Util.getLineImplicit(l0, l1);
+
+    let enclosedPts = [];
     let faces1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getFaces(vertices1);
     let faces2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getFaces(vertices2);
     vertices1.forEach((v1) => {
-      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces2, v1)) oneInTwo.push(v1);
+      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces2, v1)) enclosedPts.push(v1);
     });
     vertices2.forEach((v2) => {
-      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces1, v2)) twoInOne.push(v2);
+      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces1, v2)) enclosedPts.push(v2);
     });
+    let refPts = pts.concat(enclosedPts);
+    let up = [l0];
+    let down = [l1];
+    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getLineImplicit(l0, l1);
 
-    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getLineImplicit(pts[0], pts[pts.length-1]);
-    let pen1 = Math.max(...oneInTwo.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
-    let pen2 = Math.max(...twoInOne.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
-    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.8, 0.01, delta);
+    if (tangent.b !== 0) {
+      refPts.forEach((pt) => {
+        let ly = (-tangent.c - tangent.a*pt.x)/tangent.b
+        pt.y > ly? up.push(pt) : down.push(pt);
+      });
+    } else {
+      refPts.forEach((pt) => {
+        let lx = -tangent.c/tangent.a;
+        pt.x > lx? up.push(pt) : down.push(pt);
+      });
+    }
+
+
+    // let pen1 = Math.max(...oneInTwo.map(pt => Util.pointLineDist(tangent, pt)));
+    // let pen2 = Math.max(...twoInOne.map(pt => Util.pointLineDist(tangent, pt)));
+
+    let pen1 = Math.max(...up.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
+    let pen2 = Math.max(...down.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
+    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.01, delta);
 
     return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: body1,
@@ -407,7 +436,7 @@ class Collision {
       let dist2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(tip[1], mid);
       pen = Math.min(dist1, dist2);
     }
-    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.6, 0.01, delta);
+    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.01, delta);
 
     return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: bodyC,
@@ -477,6 +506,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
 /* harmony import */ var _collision_collision__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./collision/collision */ "./src/collision/collision.js");
 /* harmony import */ var _sleep__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./sleep */ "./src/sleep.js");
+/* harmony import */ var _forceField__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./forceField */ "./src/forceField.js");
+
 
 
 
@@ -503,6 +534,9 @@ class Engine {
     // Bodies
     this.entities = {};
 
+    // Force Fields
+    this.forceFields = [];
+
     // Render
     this.ctx = cfg.ctx;
 
@@ -519,6 +553,10 @@ class Engine {
 
     // Runner
     this.interval = null;
+
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].sleepThreshold = 20;
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionSleepThreshold = 150;
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionAwakeThreshold = 160;
   }
 
   /**
@@ -567,14 +605,27 @@ class Engine {
     this.entities[e.id] = e;
   }
 
+  addForceField(field) {
+    this.forceFields.push(field);
+  }
+
+  removeForceField(id) {
+    this.forceFields = this.forceFields.filter(f => f.id !== id);
+  }
+
   /**
    * Remove a body
    */
   removeEntity(e) {
     if (e.eternal) return;
-    this.grid.pop(e);
-    e.onDestroy && e.onDestroy();
-    delete this.entities[e.id];
+    try {
+      this.grid.pop(e);
+    } catch {
+
+    } finally {
+      e.onDestroy && e.onDestroy();
+      delete this.entities[e.id];
+    }
   }
 
   refreshGrid(e) {
@@ -597,6 +648,7 @@ class Engine {
     for(let id in this.entities) {
       this.removeEntity(this.entities[id]);
     }
+    this.forceFields = [];
   }
 
   setGravity(g) {
@@ -644,6 +696,9 @@ class Engine {
         // Gravity (With workaround to support force issue)
         if (this.g === 0) _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(e);
         if (!e.sleep) e.v.y += this.g;
+
+        // Force fields
+        this.forceFields.forEach(f => f.applyField(e));
 
         // Velocities update
         e.v = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].vRound(e.v);
@@ -707,7 +762,7 @@ class Engine {
           var sleepingBody = (body1.sleep && !body1.static) ? body1 : body2,
               movingBody = sleepingBody.id === body1.id ? body2 : body1;
 
-          if (!sleepingBody.static && movingBody.motion > _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].calAwakeThreshold(sleepingBody)) {
+          if (!sleepingBody.static && movingBody.motion > _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionAwakeThreshold) {
             _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(sleepingBody);
           }
       }
@@ -733,6 +788,35 @@ class Engine {
 
   stop() {
     clearInterval(this.interval);
+  }
+}
+
+/***/ }),
+
+/***/ "./src/forceField.js":
+/*!***************************!*\
+  !*** ./src/forceField.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ForceField; });
+/* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
+
+
+// Implementation of a force field
+class ForceField {
+  constructor(cfg) {
+    this.id = cfg.id;
+    this.x = cfg.x;
+    this.y = cfg.y;
+    this.fn = cfg.fn;
+  }
+
+  applyField(entity) {
+    this.fn(entity);
   }
 }
 
@@ -986,7 +1070,7 @@ class Grid {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/*! exports provided: Engine, Shapes, Util */
+/*! exports provided: Engine, Shapes, Util, ForceField */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1003,6 +1087,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return _libs_util__WEBPACK_IMPORTED_MODULE_5__["default"]; });
 
 /* harmony import */ var _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shapes/regpoly */ "./src/shapes/regpoly.js");
+/* harmony import */ var _forceField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./forceField */ "./src/forceField.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ForceField", function() { return _forceField__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
+
 
 
 
@@ -1016,7 +1104,7 @@ var Shapes = {
   Polygon: _shapes_polygon__WEBPACK_IMPORTED_MODULE_2__["default"],
   Rect: _shapes_rectangle__WEBPACK_IMPORTED_MODULE_3__["default"],
   Hexagon: _shapes_hexagon__WEBPACK_IMPORTED_MODULE_4__["default"],
-  RegPoly: _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__["default"]
+  RegPoly: _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__["default"],
 }
 
 
@@ -1673,12 +1761,13 @@ class Circle extends _entity__WEBPACK_IMPORTED_MODULE_0__["default"] {
 
   render(ctx, debug) {
     if (!ctx) return;
-    super.render(ctx, debug);
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : '#00969b';
+    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
+    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     ctx.closePath();
-    ctx.stroke();
+    this.static? ctx.stroke() : ctx.fill();
+    super.render(ctx, debug);
   }
 }
 
@@ -1711,6 +1800,7 @@ class Entity {
 
     // Custom data
     this.data = cfg.data;
+    this.color = cfg.color;
 
     // Linear velocity (Random between -5 and 5 if not provided)
     this.v = cfg.v? Object.assign({}, cfg.v) : _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize({x: Math.random() - 0.5, y: Math.random() - 0.5}, 10);
@@ -1799,7 +1889,7 @@ class Entity {
     refPoints = refPoints.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].toWorldPosition(v, this.orientation, this.x, this.y));
 
     // static body (blue), sleeping body (orange)
-    ctx.strokeStyle = this.static? 'blue' : this.sleep && debug? 'orange' : 'red';
+    ctx.strokeStyle = this.sleep && debug? 'orange' : 'white';
     ctx.beginPath();
     ctx.moveTo(...Object.values(refPoints[0]));
     ctx.lineTo(...Object.values(refPoints[1]));
@@ -1932,8 +2022,8 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__["default"] {
 
   render(ctx, debug) {
     if (!ctx) return;
-    super.render(ctx, debug);
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : '#00969b';
+    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
+    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
     ctx.beginPath();
     this.getVerticesWorld().forEach((v, ind) => {
       if (ind === 0) {
@@ -1943,7 +2033,8 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__["default"] {
       }
     })
     ctx.closePath();
-    ctx.stroke();
+    this.static? ctx.stroke() : ctx.fill();
+    super.render(ctx, debug);
   }
 }
 
@@ -1999,18 +2090,21 @@ __webpack_require__.r(__webpack_exports__);
  */
 class RegPoly extends _polygon__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(cfg) {
-    this.sides = cfg.sides || 4;
-    this.r = cfg.r || 20;
-    this.x = cfg.x;
-    this.y = cfg.y;
+    // this.sides = cfg.sides || 4;
+    // this.r = cfg.r || 20;
+    // this.x = cfg.x;
+    // this.y = cfg.y;
 
     let step = Math.PI*2/cfg.sides;
-    let pt = {x: this.x, y: this.y - this.r};
+    let pt = {x: 0, y: 0 - cfg.r};
     let vertices = [pt];
-    for (let i = 1; i < this.sides; i++) {
+    for (let i = 1; i < cfg.sides; i++) {
       pt = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].mRot(step, pt);
       vertices.push(pt);
     }
+    vertices = vertices.map((pt) => {
+      return {x: pt.x+cfg.x, y: pt.y+cfg.y}
+    })
     cfg.vertices = vertices;
     super(cfg);
   }
@@ -2032,10 +2126,10 @@ __webpack_require__.r(__webpack_exports__);
 
 
 class Sleep {
-  constructor() {
-    Entity.sleepThreshold = 30;
-    Entity.motionSleepThreshold = 40;
-    Entity.motionAwakeThreshold = 80;
+  constructor(cfg) {
+    Sleep.sleepThreshold = 30;
+    Sleep.motionSleepThreshold = 40;
+    Sleep.motionAwakeThreshold = 80;
   }
 
   static trySleep(entity) {
@@ -2049,9 +2143,9 @@ class Sleep {
 
     entity.motion = bias * minMotion + (1 - bias) * maxMotion;
 
-    if (entity.motion < Sleep.calMotionThreshold(entity)) {
+    if (entity.motion < Sleep.motionSleepThreshold) {
       entity.sleepCounter += 1;
-      if (entity.sleepCounter >= 30) {
+      if (entity.sleepCounter >= Sleep.sleepThreshold) {
         Sleep.sleep(entity);
       }
     } else if (entity.sleepCounter > 0) {

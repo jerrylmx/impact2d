@@ -2,6 +2,7 @@ import Grid from "./grid"
 import Util from "./libs/util";
 import Collision from "./collision/collision";
 import Sleep from "./sleep";
+import ForceField from "./forceField";
 
 export default class Engine {
   /**
@@ -24,6 +25,9 @@ export default class Engine {
     // Bodies
     this.entities = {};
 
+    // Force Fields
+    this.forceFields = [];
+
     // Render
     this.ctx = cfg.ctx;
 
@@ -40,6 +44,10 @@ export default class Engine {
 
     // Runner
     this.interval = null;
+
+    Sleep.sleepThreshold = 20;
+    Sleep.motionSleepThreshold = 150;
+    Sleep.motionAwakeThreshold = 160;
   }
 
   /**
@@ -88,14 +96,27 @@ export default class Engine {
     this.entities[e.id] = e;
   }
 
+  addForceField(field) {
+    this.forceFields.push(field);
+  }
+
+  removeForceField(id) {
+    this.forceFields = this.forceFields.filter(f => f.id !== id);
+  }
+
   /**
    * Remove a body
    */
   removeEntity(e) {
     if (e.eternal) return;
-    this.grid.pop(e);
-    e.onDestroy && e.onDestroy();
-    delete this.entities[e.id];
+    try {
+      this.grid.pop(e);
+    } catch {
+
+    } finally {
+      e.onDestroy && e.onDestroy();
+      delete this.entities[e.id];
+    }
   }
 
   refreshGrid(e) {
@@ -118,6 +139,7 @@ export default class Engine {
     for(let id in this.entities) {
       this.removeEntity(this.entities[id]);
     }
+    this.forceFields = [];
   }
 
   setGravity(g) {
@@ -165,6 +187,9 @@ export default class Engine {
         // Gravity (With workaround to support force issue)
         if (this.g === 0) Sleep.awake(e);
         if (!e.sleep) e.v.y += this.g;
+
+        // Force fields
+        this.forceFields.forEach(f => f.applyField(e));
 
         // Velocities update
         e.v = Util.vRound(e.v);
@@ -228,7 +253,7 @@ export default class Engine {
           var sleepingBody = (body1.sleep && !body1.static) ? body1 : body2,
               movingBody = sleepingBody.id === body1.id ? body2 : body1;
 
-          if (!sleepingBody.static && movingBody.motion > Sleep.calAwakeThreshold(sleepingBody)) {
+          if (!sleepingBody.static && movingBody.motion > Sleep.motionAwakeThreshold) {
             Sleep.awake(sleepingBody);
           }
       }

@@ -63,8 +63,8 @@ export default class Polygon extends Entity {
 
   render(ctx, debug) {
     if (!ctx) return;
-    super.render(ctx, debug);
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : '#00969b';
+    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
+    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
     ctx.beginPath();
     this.getVerticesWorld().forEach((v, ind) => {
       if (ind === 0) {
@@ -74,6 +74,7 @@ export default class Polygon extends Entity {
       }
     })
     ctx.closePath();
-    ctx.stroke();
+    this.static? ctx.stroke() : ctx.fill();
+    super.render(ctx, debug);
   }
 }

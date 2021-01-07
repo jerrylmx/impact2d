@@ -1,10 +1,10 @@
 import Util from './libs/util';
 
 export default class Sleep {
-  constructor() {
-    Entity.sleepThreshold = 30;
-    Entity.motionSleepThreshold = 40;
-    Entity.motionAwakeThreshold = 80;
+  constructor(cfg) {
+    Sleep.sleepThreshold = 30;
+    Sleep.motionSleepThreshold = 40;
+    Sleep.motionAwakeThreshold = 80;
   }
 
   static trySleep(entity) {
@@ -18,9 +18,9 @@ export default class Sleep {
 
     entity.motion = bias * minMotion + (1 - bias) * maxMotion;
 
-    if (entity.motion < Sleep.calMotionThreshold(entity)) {
+    if (entity.motion < Sleep.motionSleepThreshold) {
       entity.sleepCounter += 1;
-      if (entity.sleepCounter >= 30) {
+      if (entity.sleepCounter >= Sleep.sleepThreshold) {
         Sleep.sleep(entity);
       }
     } else if (entity.sleepCounter > 0) {

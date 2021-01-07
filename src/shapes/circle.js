@@ -36,11 +36,12 @@ export default class Circle extends Entity {
 
   render(ctx, debug) {
     if (!ctx) return;
-    super.render(ctx, debug);
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : '#00969b';
+    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
+    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
     ctx.closePath();
-    ctx.stroke();
+    this.static? ctx.stroke() : ctx.fill();
+    super.render(ctx, debug);
   }
 }

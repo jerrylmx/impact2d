@@ -117,10 +117,9 @@ export default class Collision {
     return true;
   }
 
-  static resolvePenatration(body1, body2, pen, n1, p=0.6, slop=0.01, delta) {
-    if (body1.isShadow && body2.isShadow) return;
+  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.01, delta) {
     if (body1.static && !body2.static || body2.static && !body1.static) {
-      p = 0.8;
+      p = 0.4;
       slop=0.01;
     }
     let mag = (Math.max(pen - slop, 0.0)/(body1.mi + body2.mi))*p;
@@ -182,14 +181,12 @@ export default class Collision {
     pts = Util.polyPolyIntersect(vertices1, vertices2);
     if (pts.length < 2) return;
 
-    // let exactPts = Collision.searchImpact(body1, body2, delta);
-    // pts = exactPts.length >= 2? exactPts : pts;
-
-
     body1.c.add(body2.id);
     body2.c.add(body1.id);
     let axis = Util.normalize(Util.vSub({x: body1.x, y: body1.y}, {x: body2.x, y: body2.y}));
     let l; //= Util.vSub(pts[0], pts[pts.length-1]);
+    let l0;
+    let l1;
 
     let minLoss = 1;
     for (let i = 0; i < pts.length; i++) {
@@ -199,6 +196,8 @@ export default class Collision {
         if (score < minLoss) {
           minLoss = score;
           l = Util.vSub(pts[i], pts[j]);
+          l0 = pts[i];
+          l1 = pts[j];
         }
       }
     }
@@ -219,21 +218,51 @@ export default class Collision {
     Collision.integrateOmega(body1, body2, pts.length);
 
     // Pen
-    let oneInTwo = [pts[0]];
-    let twoInOne = [pts[0]];
+    // let oneInTwo = [pts[0]];
+    // let twoInOne = [pts[0]];
+    // let faces1 = Util.getFaces(vertices1);
+    // let faces2 = Util.getFaces(vertices2);
+    // vertices1.forEach((v1) => {
+    //   if (Util.isInPolygon(faces2, v1)) oneInTwo.push(v1);
+    // });
+    // vertices2.forEach((v2) => {
+    //   if (Util.isInPolygon(faces1, v2)) twoInOne.push(v2);
+    // });
+    // let tangent = Util.getLineImplicit(l0, l1);
+
+    let enclosedPts = [];
     let faces1 = Util.getFaces(vertices1);
     let faces2 = Util.getFaces(vertices2);
     vertices1.forEach((v1) => {
-      if (Util.isInPolygon(faces2, v1)) oneInTwo.push(v1);
+      if (Util.isInPolygon(faces2, v1)) enclosedPts.push(v1);
     });
     vertices2.forEach((v2) => {
-      if (Util.isInPolygon(faces1, v2)) twoInOne.push(v2);
+      if (Util.isInPolygon(faces1, v2)) enclosedPts.push(v2);
     });
+    let refPts = pts.concat(enclosedPts);
+    let up = [l0];
+    let down = [l1];
+    let tangent = Util.getLineImplicit(l0, l1);
 
-    let tangent = Util.getLineImplicit(pts[0], pts[pts.length-1]);
-    let pen1 = Math.max(...oneInTwo.map(pt => Util.pointLineDist(tangent, pt)));
-    let pen2 = Math.max(...twoInOne.map(pt => Util.pointLineDist(tangent, pt)));
-    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.8, 0.01, delta);
+    if (tangent.b !== 0) {
+      refPts.forEach((pt) => {
+        let ly = (-tangent.c - tangent.a*pt.x)/tangent.b
+        pt.y > ly? up.push(pt) : down.push(pt);
+      });
+    } else {
+      refPts.forEach((pt) => {
+        let lx = -tangent.c/tangent.a;
+        pt.x > lx? up.push(pt) : down.push(pt);
+      });
+    }
+
+
+    // let pen1 = Math.max(...oneInTwo.map(pt => Util.pointLineDist(tangent, pt)));
+    // let pen2 = Math.max(...twoInOne.map(pt => Util.pointLineDist(tangent, pt)));
+
+    let pen1 = Math.max(...up.map(pt => Util.pointLineDist(tangent, pt)));
+    let pen2 = Math.max(...down.map(pt => Util.pointLineDist(tangent, pt)));
+    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.01, delta);
 
     return new Pair({
       body1: body1,
@@ -297,7 +326,7 @@ export default class Collision {
       let dist2 = Util.dist(tip[1], mid);
       pen = Math.min(dist1, dist2);
     }
-    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.6, 0.01, delta);
+    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.01, delta);
 
     return new Pair({
       body1: bodyC,

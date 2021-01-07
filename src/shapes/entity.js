@@ -14,6 +14,7 @@ export default class Entity {
 
     // Custom data
     this.data = cfg.data;
+    this.color = cfg.color;
 
     // Linear velocity (Random between -5 and 5 if not provided)
     this.v = cfg.v? Object.assign({}, cfg.v) : Util.normalize({x: Math.random() - 0.5, y: Math.random() - 0.5}, 10);
@@ -102,7 +103,7 @@ export default class Entity {
     refPoints = refPoints.map((v) => Util.toWorldPosition(v, this.orientation, this.x, this.y));
 
     // static body (blue), sleeping body (orange)
-    ctx.strokeStyle = this.static? 'blue' : this.sleep && debug? 'orange' : 'red';
+    ctx.strokeStyle = this.sleep && debug? 'orange' : 'white';
     ctx.beginPath();
     ctx.moveTo(...Object.values(refPoints[0]));
     ctx.lineTo(...Object.values(refPoints[1]));
