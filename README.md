@@ -2,9 +2,13 @@
 
 This is a light wight 2d physics engine for web development. Gives reasonable physics simulation for 2d convex geometries.
 
+[Demo](https://collide2d.web.app)
+
 ### Usage
 
 Very simple to use and configure.
+
+Copy library code main.js from ./dist folder
 
 ```js
  const {Engine, Shapes} = Impact2d
