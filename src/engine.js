@@ -28,9 +28,6 @@ export default class Engine {
     // Force Fields
     this.forceFields = [];
 
-    // Render
-    this.ctx = cfg.ctx;
-
     // Gravity
     this.g = 0;
 
@@ -48,6 +45,10 @@ export default class Engine {
     Sleep.sleepThreshold = 20;
     Sleep.motionSleepThreshold = 150;
     Sleep.motionAwakeThreshold = 160;
+
+    this.onAdd = cfg.onAdd;
+    this.onRemove = cfg.onRemove;
+    this.postTick = cfg.postTick;
   }
 
   /**
@@ -94,6 +95,8 @@ export default class Engine {
   addEntity(e) {
     this.grid.push(e);
     this.entities[e.id] = e;
+    this.onAdd && this.onAdd(e);
+    return e;
   }
 
   addForceField(field) {
@@ -102,6 +105,10 @@ export default class Engine {
 
   removeForceField(id) {
     this.forceFields = this.forceFields.filter(f => f.id !== id);
+  }
+
+  removeAllForceFields() {
+    this.forceFields = [];
   }
 
   /**
@@ -117,6 +124,7 @@ export default class Engine {
       e.onDestroy && e.onDestroy();
       delete this.entities[e.id];
     }
+    this.onRemove && this.onRemove(e);
   }
 
   refreshGrid(e) {
@@ -156,21 +164,13 @@ export default class Engine {
   tick(delta = this.delta) {
     let workload = 0;
 
-    // Update canvas if rendering is enabled
-    if (this.ctx) {
-      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.ctx.font = "30px Arial";
-      this.ctx.fillStyle = 'rgba(0,150,155,0.5)';
-      this.ctx.fillText(`Body Count: ${Object.keys(this.entities).length}`, 420, 100);
-    }
-
     let toRm = [];
     let toAdd = [];
     let pairs = [];
 
     // Here we do update and collision handling in different loops
-    for (let i = 0; i < Object.keys(this.entities).length; i++) {
-      let e = this.entities[Object.keys(this.entities)[i]];
+    for (let eid in this.entities) {
+      let e = this.entities[eid];
       e.checked = new Set(); // Avoid duplicated collision pair resolution
       if (e.ttl !== -1) {
         e.ttl--;
@@ -234,8 +234,7 @@ export default class Engine {
           !this.refreshGrid(n) && toRm.push(n);
         }
       }
-      this.ctx && e.render(this.ctx, this.debug);
-      e.onRender && e.onRender();
+      this.postTick && this.postTick(e);
       e.contacts = [];
     }
 

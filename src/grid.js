@@ -107,11 +107,15 @@ export default class Grid {
     if (this.isLeaf()) {
       return this.payload;
     } else {
+      let load1 = this.items[0].getPayload();
+      let load2 = this.items[1].getPayload();
+      let load3 = this.items[2].getPayload();
+      let load4 = this.items[3].getPayload();
       return [
-        ...this.items[0].getPayload(),
-        ...this.items[1].getPayload(),
-        ...this.items[2].getPayload(),
-        ...this.items[3].getPayload(),
+        ...load1,
+        ...load2,
+        ...load3,
+        ...load4,
       ]
     }
   }

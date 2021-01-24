@@ -60,21 +60,4 @@ export default class Polygon extends Entity {
       return {x: v.x + this.x, y: v.y + this.y};
     } );
   }
-
-  render(ctx, debug) {
-    if (!ctx) return;
-    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.beginPath();
-    this.getVerticesWorld().forEach((v, ind) => {
-      if (ind === 0) {
-        ctx.moveTo(v.x, v.y);
-      } else {
-        ctx.lineTo(v.x, v.y);
-      }
-    })
-    ctx.closePath();
-    this.static? ctx.stroke() : ctx.fill();
-    super.render(ctx, debug);
-  }
 }

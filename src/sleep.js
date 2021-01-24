@@ -37,7 +37,7 @@ export default class Sleep {
     entity.sleep = true;
     entity.sleepCounter = 30;
     entity.v = {x: 0, y: 0};
-    entity.omega = 0;
+    if (!entity.static) entity.omega = 0;
     entity.motion = 0;
   }
 

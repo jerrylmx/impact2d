@@ -227,11 +227,7 @@ class Collision {
     return true;
   }
 
-  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.01, delta) {
-    if (body1.static && !body2.static || body2.static && !body1.static) {
-      p = 0.4;
-      slop=0.01;
-    }
+  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.05, delta) {
     let mag = (Math.max(pen - slop, 0.0)/(body1.mi + body2.mi))*p;
     // let mag = Math.max(pen - slop, 0.0)*p;
     let correction = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(n1, mag);
@@ -372,7 +368,7 @@ class Collision {
 
     let pen1 = Math.max(...up.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
     let pen2 = Math.max(...down.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
-    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.01, delta);
+    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.05, delta);
 
     return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: body1,
@@ -436,7 +432,7 @@ class Collision {
       let dist2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(tip[1], mid);
       pen = Math.min(dist1, dist2);
     }
-    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.01, delta);
+    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.05, delta);
 
     return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: bodyC,
@@ -473,7 +469,7 @@ class Collision {
     // Pen
     let dist = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(body1, body2);
     let depth = body1.r + body2.r - dist;
-    Collision.resolvePenatration(body1, body2, depth, n1, 0.6, 0.01, delta);
+    Collision.resolvePenatration(body1, body2, depth, n1, 0.6, 0.05, delta);
 
     return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: body1,
@@ -537,9 +533,6 @@ class Engine {
     // Force Fields
     this.forceFields = [];
 
-    // Render
-    this.ctx = cfg.ctx;
-
     // Gravity
     this.g = 0;
 
@@ -557,6 +550,10 @@ class Engine {
     _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].sleepThreshold = 20;
     _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionSleepThreshold = 150;
     _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionAwakeThreshold = 160;
+
+    this.onAdd = cfg.onAdd;
+    this.onRemove = cfg.onRemove;
+    this.postTick = cfg.postTick;
   }
 
   /**
@@ -603,6 +600,8 @@ class Engine {
   addEntity(e) {
     this.grid.push(e);
     this.entities[e.id] = e;
+    this.onAdd && this.onAdd(e);
+    return e;
   }
 
   addForceField(field) {
@@ -611,6 +610,10 @@ class Engine {
 
   removeForceField(id) {
     this.forceFields = this.forceFields.filter(f => f.id !== id);
+  }
+
+  removeAllForceFields() {
+    this.forceFields = [];
   }
 
   /**
@@ -626,6 +629,7 @@ class Engine {
       e.onDestroy && e.onDestroy();
       delete this.entities[e.id];
     }
+    this.onRemove && this.onRemove(e);
   }
 
   refreshGrid(e) {
@@ -665,21 +669,13 @@ class Engine {
   tick(delta = this.delta) {
     let workload = 0;
 
-    // Update canvas if rendering is enabled
-    if (this.ctx) {
-      this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
-      this.ctx.font = "30px Arial";
-      this.ctx.fillStyle = 'rgba(0,150,155,0.5)';
-      this.ctx.fillText(`Body Count: ${Object.keys(this.entities).length}`, 420, 100);
-    }
-
     let toRm = [];
     let toAdd = [];
     let pairs = [];
 
     // Here we do update and collision handling in different loops
-    for (let i = 0; i < Object.keys(this.entities).length; i++) {
-      let e = this.entities[Object.keys(this.entities)[i]];
+    for (let eid in this.entities) {
+      let e = this.entities[eid];
       e.checked = new Set(); // Avoid duplicated collision pair resolution
       if (e.ttl !== -1) {
         e.ttl--;
@@ -743,8 +739,7 @@ class Engine {
           !this.refreshGrid(n) && toRm.push(n);
         }
       }
-      this.ctx && e.render(this.ctx, this.debug);
-      e.onRender && e.onRender();
+      this.postTick && this.postTick(e);
       e.contacts = [];
     }
 
@@ -942,11 +937,15 @@ class Grid {
     if (this.isLeaf()) {
       return this.payload;
     } else {
+      let load1 = this.items[0].getPayload();
+      let load2 = this.items[1].getPayload();
+      let load3 = this.items[2].getPayload();
+      let load4 = this.items[3].getPayload();
       return [
-        ...this.items[0].getPayload(),
-        ...this.items[1].getPayload(),
-        ...this.items[2].getPayload(),
-        ...this.items[3].getPayload(),
+        ...load1,
+        ...load2,
+        ...load3,
+        ...load4,
       ]
     }
   }
@@ -1758,17 +1757,6 @@ class Circle extends _entity__WEBPACK_IMPORTED_MODULE_0__["default"] {
       y: [this.y-this.r, this.y+this.r]
     }
   }
-
-  render(ctx, debug) {
-    if (!ctx) return;
-    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    ctx.closePath();
-    this.static? ctx.stroke() : ctx.fill();
-    super.render(ctx, debug);
-  }
 }
 
 /***/ }),
@@ -1867,46 +1855,6 @@ class Entity {
     this.sleepCounter = 0;
 
     this.onInit && this.onInit();
-  }
-
-  /**
-   * Default body render if context is provided
-   * @param {*} ctx
-   * @param {*} debug
-   */
-  render(ctx, debug) {
-    if (!ctx) return;
-    const MARKER_W = 3;
-    const MARKER_H = 5;
-    let refPoints = [
-      {x:-MARKER_W, y:0},
-      {x:MARKER_W, y:0},
-      {x:0, y:-MARKER_H},
-      {x:0, y:MARKER_H},
-    ]
-
-    // Orient and position marker
-    refPoints = refPoints.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].toWorldPosition(v, this.orientation, this.x, this.y));
-
-    // static body (blue), sleeping body (orange)
-    ctx.strokeStyle = this.sleep && debug? 'orange' : 'white';
-    ctx.beginPath();
-    ctx.moveTo(...Object.values(refPoints[0]));
-    ctx.lineTo(...Object.values(refPoints[1]));
-    ctx.moveTo(...Object.values(refPoints[2]));
-    ctx.lineTo(...Object.values(refPoints[3]));
-    ctx.stroke();
-
-    // Mark contact points for debug
-    if (debug) {
-      ctx.strokeStyle = 'red';
-      this.contacts.forEach(pt => {
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 2, 0, 2 * Math.PI);
-        ctx.stroke();
-      });
-    }
-    ctx.strokeStyle = 'black';
   }
 }
 
@@ -2018,23 +1966,6 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__["default"] {
     return this.vertices.map((v) => {
       return {x: v.x + this.x, y: v.y + this.y};
     } );
-  }
-
-  render(ctx, debug) {
-    if (!ctx) return;
-    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.beginPath();
-    this.getVerticesWorld().forEach((v, ind) => {
-      if (ind === 0) {
-        ctx.moveTo(v.x, v.y);
-      } else {
-        ctx.lineTo(v.x, v.y);
-      }
-    })
-    ctx.closePath();
-    this.static? ctx.stroke() : ctx.fill();
-    super.render(ctx, debug);
   }
 }
 
@@ -2162,7 +2093,7 @@ class Sleep {
     entity.sleep = true;
     entity.sleepCounter = 30;
     entity.v = {x: 0, y: 0};
-    entity.omega = 0;
+    if (!entity.static) entity.omega = 0;
     entity.motion = 0;
   }
 

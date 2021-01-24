@@ -33,15 +33,4 @@ export default class Circle extends Entity {
       y: [this.y-this.r, this.y+this.r]
     }
   }
-
-  render(ctx, debug) {
-    if (!ctx) return;
-    ctx.fillStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.strokeStyle = (debug && this.sleep)? 'orange' : this.color||'#00969b';
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.r, 0, 2 * Math.PI);
-    ctx.closePath();
-    this.static? ctx.stroke() : ctx.fill();
-    super.render(ctx, debug);
-  }
 }

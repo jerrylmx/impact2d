@@ -1,6 +1,6 @@
 {
   "name": "impact2d",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Simple 2d physics",
   "main": "./dist/main.js",
   "scripts": {

@@ -82,44 +82,4 @@ export default class Entity {
 
     this.onInit && this.onInit();
   }
-
-  /**
-   * Default body render if context is provided
-   * @param {*} ctx
-   * @param {*} debug
-   */
-  render(ctx, debug) {
-    if (!ctx) return;
-    const MARKER_W = 3;
-    const MARKER_H = 5;
-    let refPoints = [
-      {x:-MARKER_W, y:0},
-      {x:MARKER_W, y:0},
-      {x:0, y:-MARKER_H},
-      {x:0, y:MARKER_H},
-    ]
-
-    // Orient and position marker
-    refPoints = refPoints.map((v) => Util.toWorldPosition(v, this.orientation, this.x, this.y));
-
-    // static body (blue), sleeping body (orange)
-    ctx.strokeStyle = this.sleep && debug? 'orange' : 'white';
-    ctx.beginPath();
-    ctx.moveTo(...Object.values(refPoints[0]));
-    ctx.lineTo(...Object.values(refPoints[1]));
-    ctx.moveTo(...Object.values(refPoints[2]));
-    ctx.lineTo(...Object.values(refPoints[3]));
-    ctx.stroke();
-
-    // Mark contact points for debug
-    if (debug) {
-      ctx.strokeStyle = 'red';
-      this.contacts.forEach(pt => {
-        ctx.beginPath();
-        ctx.arc(pt.x, pt.y, 2, 0, 2 * Math.PI);
-        ctx.stroke();
-      });
-    }
-    ctx.strokeStyle = 'black';
-  }
 }

@@ -117,11 +117,7 @@ export default class Collision {
     return true;
   }
 
-  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.01, delta) {
-    if (body1.static && !body2.static || body2.static && !body1.static) {
-      p = 0.4;
-      slop=0.01;
-    }
+  static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.05, delta) {
     let mag = (Math.max(pen - slop, 0.0)/(body1.mi + body2.mi))*p;
     // let mag = Math.max(pen - slop, 0.0)*p;
     let correction = Util.vMul(n1, mag);
@@ -262,7 +258,10 @@ export default class Collision {
 
     let pen1 = Math.max(...up.map(pt => Util.pointLineDist(tangent, pt)));
     let pen2 = Math.max(...down.map(pt => Util.pointLineDist(tangent, pt)));
-    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.01, delta);
+    Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.05, delta);
+
+    body1.onCollide && body1.onCollide(body2);
+    body2.onCollide && body2.onCollide(body1);
 
     return new Pair({
       body1: body1,
@@ -326,7 +325,10 @@ export default class Collision {
       let dist2 = Util.dist(tip[1], mid);
       pen = Math.min(dist1, dist2);
     }
-    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.01, delta);
+    Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.05, delta);
+
+    bodyC.onCollide && bodyC.onCollide(bodyP);
+    bodyP.onCollide && bodyP.onCollide(bodyC);
 
     return new Pair({
       body1: bodyC,
@@ -363,7 +365,10 @@ export default class Collision {
     // Pen
     let dist = Util.dist(body1, body2);
     let depth = body1.r + body2.r - dist;
-    Collision.resolvePenatration(body1, body2, depth, n1, 0.6, 0.01, delta);
+    Collision.resolvePenatration(body1, body2, depth, n1, 0.6, 0.05, delta);
+
+    body1.onCollide && body1.onCollide(body2);
+    body2.onCollide && body2.onCollide(body1);
 
     return new Pair({
       body1: body1,
