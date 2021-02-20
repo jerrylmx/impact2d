@@ -8,20 +8,104 @@
 	else
 		root["Impact2d"] = factory();
 })(this, function() {
-return /******/ (() => { // webpackBootstrap
-/******/ 	"use strict";
-/******/ 	var __webpack_modules__ = ({
+return /******/ (function(modules) { // webpackBootstrap
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = modules;
+/******/
+/******/ 	// expose the module cache
+/******/ 	__webpack_require__.c = installedModules;
+/******/
+/******/ 	// define getter function for harmony exports
+/******/ 	__webpack_require__.d = function(exports, name, getter) {
+/******/ 		if(!__webpack_require__.o(exports, name)) {
+/******/ 			Object.defineProperty(exports, name, { enumerable: true, get: getter });
+/******/ 		}
+/******/ 	};
+/******/
+/******/ 	// define __esModule on exports
+/******/ 	__webpack_require__.r = function(exports) {
+/******/ 		if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 			Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 		}
+/******/ 		Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 	};
+/******/
+/******/ 	// create a fake namespace object
+/******/ 	// mode & 1: value is a module id, require it
+/******/ 	// mode & 2: merge all properties of value into the ns
+/******/ 	// mode & 4: return value when already ns object
+/******/ 	// mode & 8|1: behave like require
+/******/ 	__webpack_require__.t = function(value, mode) {
+/******/ 		if(mode & 1) value = __webpack_require__(value);
+/******/ 		if(mode & 8) return value;
+/******/ 		if((mode & 4) && typeof value === 'object' && value && value.__esModule) return value;
+/******/ 		var ns = Object.create(null);
+/******/ 		__webpack_require__.r(ns);
+/******/ 		Object.defineProperty(ns, 'default', { enumerable: true, value: value });
+/******/ 		if(mode & 2 && typeof value != 'string') for(var key in value) __webpack_require__.d(ns, key, function(key) { return value[key]; }.bind(null, key));
+/******/ 		return ns;
+/******/ 	};
+/******/
+/******/ 	// getDefaultExport function for compatibility with non-harmony modules
+/******/ 	__webpack_require__.n = function(module) {
+/******/ 		var getter = module && module.__esModule ?
+/******/ 			function getDefault() { return module['default']; } :
+/******/ 			function getModuleExports() { return module; };
+/******/ 		__webpack_require__.d(getter, 'a', getter);
+/******/ 		return getter;
+/******/ 	};
+/******/
+/******/ 	// Object.prototype.hasOwnProperty.call
+/******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
+/******/
+/******/ 	// __webpack_public_path__
+/******/ 	__webpack_require__.p = "";
+/******/
+/******/
+/******/ 	// Load entry module and return exports
+/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.js");
+/******/ })
+/************************************************************************/
+/******/ ({
 
 /***/ "./src/collision/collision.js":
 /*!************************************!*\
   !*** ./src/collision/collision.js ***!
   \************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Collision
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Collision; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/util */ "./src/libs/util.js");
 /* harmony import */ var _pair__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../pair */ "./src/pair.js");
 
@@ -52,15 +136,15 @@ class Collision {
   }
 
   static radiusCheck(body1, body2) {
-    return _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.distSq(body1, body2) <= Math.pow(body1.getBound()+body2.getBound(), 2);
+    return _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].distSq(body1, body2) <= Math.pow(body1.getBound()+body2.getBound(), 2);
   }
 
   static integrateOmega(body1, body2, counts) {
     if (!body1.static) {
-      body1.v = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body1.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(body1.a, 1/counts));
-      body1.v1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body1.v1, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(body1.a, 1/counts));
+      body1.v = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body1.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(body1.a, 1/counts));
+      body1.v1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body1.v1, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(body1.a, 1/counts));
       body1.omega += (body1.alpha/counts);
-      body1.omega = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.round(body1.omega);
+      body1.omega = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].round(body1.omega);
       body1.o1 += (body1.alpha/counts);
       body1.alpha = 0;
       body1.a = {x: 0, y: 0}
@@ -70,10 +154,10 @@ class Collision {
 
     }
     if (!body2.static) {
-      body2.v = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body2.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(body2.a, 1/counts));
-      body2.v1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body2.v1, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(body2.a, 1/counts));
+      body2.v = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body2.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(body2.a, 1/counts));
+      body2.v1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body2.v1, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(body2.a, 1/counts));
       body2.omega += (body2.alpha/counts);
-      body2.omega = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.round(body2.omega);
+      body2.omega = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].round(body2.omega);
       body2.o1 += (body2.alpha/counts);
       body2.alpha = 0;
       body2.a = {x: 0, y: 0}
@@ -89,41 +173,41 @@ class Collision {
     if (body1.isShadow && body2.isShadow) return false;
     let c1 = {x: body1.x, y: body1.y};
     let c2 = {x: body2.x, y: body2.y};
-    let r1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(contact, c1);
-    let r2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(contact, c2);
-    let rv = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSum([body2.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.svCross(body2.omega,r2), _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vNeg(body1.v), _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vNeg(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.svCross(body1.omega,r1))]);
-    let vn = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dot(rv, n1);
+    let r1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(contact, c1);
+    let r2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(contact, c2);
+    let rv = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSum([body2.v, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].svCross(body2.omega,r2), _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vNeg(body1.v), _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vNeg(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].svCross(body1.omega,r1))]);
+    let vn = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dot(rv, n1);
     if(vn > 0) return false;
     let e = Math.min(body1.restitution, body2.restitution);
     let j = -(1 + e) * vn;
-    j /= body1.mi + body2.mi + Math.pow(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vCross(r1, n1),2)/body1.inertia + Math.pow(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vCross(r2, n1),2)/body2.inertia;
+    j /= body1.mi + body2.mi + Math.pow(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vCross(r1, n1),2)/body1.inertia + Math.pow(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vCross(r2, n1),2)/body2.inertia;
 
     // Apply impulse
-    let impulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(n1, j);
+    let impulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(n1, j);
 
     if (!body2.isShadow && !body1.static) {
-      body1.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(body1.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(impulse, body1.mi));
+      body1.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(body1.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(impulse, body1.mi));
     }
     if (!body1.isShadow && !body2.static) {
-      body2.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body2.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(impulse, body2.mi));
+      body2.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body2.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(impulse, body2.mi));
     }
     // if (!body1.static) body1.omega -= (1/body1.inertia) * Util.vCross(r1, impulse);
     // if (!body2.static) body2.omega += (1/body2.inertia) * Util.vCross(r2, impulse);
-    if (!body1.static && !body2.isShadow) body1.alpha -= (1/body1.inertia) * _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vCross(r1, impulse);
-    if (!body2.static && !body1.isShadow) body2.alpha += (1/body2.inertia) * _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vCross(r2, impulse);
+    if (!body1.static && !body2.isShadow) body1.alpha -= (1/body1.inertia) * _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vCross(r1, impulse);
+    if (!body2.static && !body1.isShadow) body2.alpha += (1/body2.inertia) * _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vCross(r2, impulse);
     body1.contacts.push(contact);
     body2.contacts.push(contact);
 
-    let v1Tmp = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body1.v, body1.a);
-    let v2Tmp = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body2.v, body2.a);
+    let v1Tmp = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body1.v, body1.a);
+    let v2Tmp = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body2.v, body2.a);
 
-    rv = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSum([v2Tmp, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.svCross(body2.omega,r2), _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vNeg(v1Tmp), _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vNeg(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.svCross(body1.omega,r1))]);
+    rv = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSum([v2Tmp, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].svCross(body2.omega,r2), _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vNeg(v1Tmp), _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vNeg(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].svCross(body1.omega,r1))]);
     // // Solve for the tangent vector
-    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(rv, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(n1, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dot(rv, n1)));
-    tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(tangent)
+    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(rv, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(n1, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dot(rv, n1)));
+    tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(tangent)
 
     // // Solve for magnitude to apply along the friction vector
-    let jt = -1*_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dot(rv, tangent);
+    let jt = -1*_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dot(rv, tangent);
     jt = jt / (body1.mi + body2.mi)
 
 
@@ -132,21 +216,21 @@ class Collision {
     // Clamp magnitude of friction and create impulse vector
     let frictionImpulse;
     if(Math.abs(jt) < j * mu) {
-      frictionImpulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(tangent, jt);
+      frictionImpulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(tangent, jt);
     } else {
       let dynamicFriction = Math.sqrt(Math.pow(body1.dynamicFriction,2) + Math.pow(body2.dynamicFriction, 2));
-      frictionImpulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(tangent, -j*dynamicFriction);
+      frictionImpulse = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(tangent, -j*dynamicFriction);
     }
 
-    if (!body2.isShadow && !body1.static)  body1.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(body1.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(frictionImpulse, body1.mi));
-    if (!body1.isShadow && !body2.static)  body2.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd(body2.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(frictionImpulse, body2.mi));
+    if (!body2.isShadow && !body1.static)  body1.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(body1.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(frictionImpulse, body1.mi));
+    if (!body1.isShadow && !body2.static)  body2.a = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd(body2.a, _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(frictionImpulse, body2.mi));
     return true;
   }
 
   static resolvePenatration(body1, body2, pen, n1, p=0.3, slop=0.05, delta) {
     let mag = (Math.max(pen - slop, 0.0)/(body1.mi + body2.mi))*p;
     // let mag = Math.max(pen - slop, 0.0)*p;
-    let correction = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMul(n1, mag);
+    let correction = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMul(n1, mag);
     if (mag > 0) {
       if (!body1.static && !body2.isShadow) {
         body1.x -= body1.mi * correction.x;
@@ -179,7 +263,7 @@ class Collision {
       body2.y1 = body2.y - (body2.v.y*delta) * mid;
       let vertices1 = body1.getVerticesWorldBuffer();
       let vertices2 = body2.getVerticesWorldBuffer();
-      pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.polyPolyIntersect(vertices1, vertices2);
+      pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].polyPolyIntersect(vertices1, vertices2);
       if (pts.length >= 2) {
         res = pts;
         lo = mid;
@@ -200,12 +284,12 @@ class Collision {
     let vertices1 = body1.getVerticesWorld();
     let vertices2 = body2.getVerticesWorld();
     let pts = [];
-    pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.polyPolyIntersect(vertices1, vertices2);
+    pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].polyPolyIntersect(vertices1, vertices2);
     if (pts.length < 2) return;
 
     body1.c.add(body2.id);
     body2.c.add(body1.id);
-    let axis = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub({x: body1.x, y: body1.y}, {x: body2.x, y: body2.y}));
+    let axis = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub({x: body1.x, y: body1.y}, {x: body2.x, y: body2.y}));
     let l; //= Util.vSub(pts[0], pts[pts.length-1]);
     let l0;
     let l1;
@@ -213,21 +297,21 @@ class Collision {
     let minLoss = 1;
     for (let i = 0; i < pts.length; i++) {
       for (let j = i+1; j < pts.length; j++) {
-        let face = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(pts[i], pts[j]));
-        let score = Math.abs(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dot(axis, face));
+        let face = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(pts[i], pts[j]));
+        let score = Math.abs(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dot(axis, face));
         if (score < minLoss) {
           minLoss = score;
-          l = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(pts[i], pts[j]);
+          l = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(pts[i], pts[j]);
           l0 = pts[i];
           l1 = pts[j];
         }
       }
     }
-    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vRound(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vOrth(l)[0]));
+    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vRound(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vOrth(l)[0]));
 
-    let c = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(body2, body1);
-    if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dot(c, n1) < 0) {
-      n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vNeg(n1);
+    let c = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(body2, body1);
+    if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dot(c, n1) < 0) {
+      n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vNeg(n1);
     }
 
     pts.forEach((contact) => {
@@ -253,18 +337,18 @@ class Collision {
     // let tangent = Util.getLineImplicit(l0, l1);
 
     let enclosedPts = [];
-    let faces1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getFaces(vertices1);
-    let faces2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getFaces(vertices2);
+    let faces1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getFaces(vertices1);
+    let faces2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getFaces(vertices2);
     vertices1.forEach((v1) => {
-      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isInPolygon(faces2, v1)) enclosedPts.push(v1);
+      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces2, v1)) enclosedPts.push(v1);
     });
     vertices2.forEach((v2) => {
-      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isInPolygon(faces1, v2)) enclosedPts.push(v2);
+      if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isInPolygon(faces1, v2)) enclosedPts.push(v2);
     });
     let refPts = pts.concat(enclosedPts);
     let up = [l0];
     let down = [l1];
-    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getLineImplicit(l0, l1);
+    let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getLineImplicit(l0, l1);
 
     if (tangent.b !== 0) {
       refPts.forEach((pt) => {
@@ -282,14 +366,11 @@ class Collision {
     // let pen1 = Math.max(...oneInTwo.map(pt => Util.pointLineDist(tangent, pt)));
     // let pen2 = Math.max(...twoInOne.map(pt => Util.pointLineDist(tangent, pt)));
 
-    let pen1 = Math.max(...up.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.pointLineDist(tangent, pt)));
-    let pen2 = Math.max(...down.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.pointLineDist(tangent, pt)));
+    let pen1 = Math.max(...up.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
+    let pen2 = Math.max(...down.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
     Collision.resolvePenatration(body1, body2, pen1+pen2, n1, 0.4, 0.05, delta);
 
-    body1.onCollide && body1.onCollide(body2);
-    body2.onCollide && body2.onCollide(body1);
-
-    return new _pair__WEBPACK_IMPORTED_MODULE_1__.default({
+    return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: body1,
       body2: body2,
       n: n1,
@@ -313,20 +394,20 @@ class Collision {
     for (let i = 0; i < vertices.length; i++) {
       let v0 = vertices[i];
       let v1 = i === vertices.length-1? vertices[0]:vertices[i+1];
-      let distToCircle = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(v0, cCenter);
+      let distToCircle = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(v0, cCenter);
       if (distToCircle < bodyC.r) {
         inCircle.push(v0);
         corner = true;
       }
-      pts = [...pts, ..._libs_util__WEBPACK_IMPORTED_MODULE_0__.default.circleLineSegIntersect(bodyC.x, bodyC.y, bodyC.r, v0, v1)];
+      pts = [...pts, ..._libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].circleLineSegIntersect(bodyC.x, bodyC.y, bodyC.r, v0, v1)];
     }
 
     if (pts.length < 2) return;
 
     bodyC.c.add(bodyP.id);
     bodyP.c.add(bodyC.id);
-    let mid = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vMid(...pts);
-    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(mid, bodyC));
+    let mid = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vMid(...pts);
+    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(mid, bodyC));
 
     pts.forEach((contact) => {
       Collision.markBody(bodyC);
@@ -341,22 +422,19 @@ class Collision {
     let pen;
     if (corner) {
       inCircle.push(pts[0]);
-      let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getLineImplicit(...pts);
-      let pen1 = Math.max(...inCircle.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.pointLineDist(tangent, pt)));
-      let pen2 = bodyC.r - _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(mid, cCenter);
+      let tangent = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getLineImplicit(...pts);
+      let pen1 = Math.max(...inCircle.map(pt => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].pointLineDist(tangent, pt)));
+      let pen2 = bodyC.r - _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(mid, cCenter);
       pen = pen1 + pen2
     } else {
-      let tip = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.circleLineIntersect(bodyC.x, bodyC.y, bodyC.r, cCenter, mid);
-      let dist1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(tip[0], mid);
-      let dist2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(tip[1], mid);
+      let tip = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].circleLineIntersect(bodyC.x, bodyC.y, bodyC.r, cCenter, mid);
+      let dist1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(tip[0], mid);
+      let dist2 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(tip[1], mid);
       pen = Math.min(dist1, dist2);
     }
     Collision.resolvePenatration(bodyC, bodyP, pen, n1, 0.4, 0.05, delta);
 
-    bodyC.onCollide && bodyC.onCollide(bodyP);
-    bodyP.onCollide && bodyP.onCollide(bodyC);
-
-    return new _pair__WEBPACK_IMPORTED_MODULE_1__.default({
+    return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: bodyC,
       body2: bodyP,
       n: n1,
@@ -373,11 +451,11 @@ class Collision {
     body2.checked.add(body1.id);
     body1.c.add(body2.id);
     body2.c.add(body1.id);
-    let pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.intersectTwoCircles(body1.x, body1.y, body1.r, body2.x, body2.y, body2.r);
+    let pts = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].intersectTwoCircles(body1.x, body1.y, body1.r, body2.x, body2.y, body2.r);
 
     if (pts.length != 2) return;
     if (pts[0].x === pts[1].x && pts[0].y === pts[1].y) return null;
-    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vSub(body2, body1));
+    let n1 = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize(_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vSub(body2, body1));
 
     pts.forEach((contact) => {
       Collision.markBody(body1);
@@ -389,14 +467,11 @@ class Collision {
     Collision.integrateOmega(body1, body2, pts.length);
 
     // Pen
-    let dist = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(body1, body2);
+    let dist = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(body1, body2);
     let depth = body1.r + body2.r - dist;
     Collision.resolvePenatration(body1, body2, depth, n1, 0.6, 0.05, delta);
 
-    body1.onCollide && body1.onCollide(body2);
-    body2.onCollide && body2.onCollide(body1);
-
-    return new _pair__WEBPACK_IMPORTED_MODULE_1__.default({
+    return new _pair__WEBPACK_IMPORTED_MODULE_1__["default"]({
       body1: body1,
       body2: body2,
       n: n1,
@@ -417,12 +492,12 @@ class Collision {
 /*!***********************!*\
   !*** ./src/engine.js ***!
   \***********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Engine
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Engine; });
 /* harmony import */ var _grid__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./grid */ "./src/grid.js");
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
 /* harmony import */ var _collision_collision__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./collision/collision */ "./src/collision/collision.js");
@@ -449,7 +524,7 @@ class Engine {
     this.debug = debug;
 
     // Init quadtree
-    this.grid = new _grid__WEBPACK_IMPORTED_MODULE_0__.default({scale: cfg.scale || 500});
+    this.grid = new _grid__WEBPACK_IMPORTED_MODULE_0__["default"]({scale: cfg.scale || 500});
     this.grid.fill(cfg.lv || 6);
 
     // Bodies
@@ -472,9 +547,9 @@ class Engine {
     // Runner
     this.interval = null;
 
-    _sleep__WEBPACK_IMPORTED_MODULE_3__.default.sleepThreshold = 20;
-    _sleep__WEBPACK_IMPORTED_MODULE_3__.default.motionSleepThreshold = 150;
-    _sleep__WEBPACK_IMPORTED_MODULE_3__.default.motionAwakeThreshold = 160;
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].sleepThreshold = 20;
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionSleepThreshold = 150;
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionAwakeThreshold = 160;
 
     this.onAdd = cfg.onAdd;
     this.onRemove = cfg.onRemove;
@@ -488,9 +563,9 @@ class Engine {
    */
   applyForce(e, force) {
     // F = ma => a = F/m
-    let dv = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.vMul(force, e.mi);
-    e.v = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.vAdd(e.v, dv);
-    _sleep__WEBPACK_IMPORTED_MODULE_3__.default.awake(e);
+    let dv = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].vMul(force, e.mi);
+    e.v = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].vAdd(e.v, dv);
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(e);
   }
 
   /**
@@ -502,9 +577,9 @@ class Engine {
   applyForceAtPoint(e, force, point) {
     this.applyForce(e, force);
 
-    let pointWorld = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.toWorldPosition(point, e.orientation, e.x, e.y);
+    let pointWorld = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].toWorldPosition(point, e.orientation, e.x, e.y);
     let r = {x: pointWorld.x - e.x, y: pointWorld.y - e.y};
-    this.applyTorque(e, _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.vCross(r, force));
+    this.applyTorque(e, _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].vCross(r, force));
   }
 
   /**
@@ -516,7 +591,7 @@ class Engine {
     // T = Ia => a = T/I
     let dw = tau/e.inertia;
     e.omega += dw;
-    _sleep__WEBPACK_IMPORTED_MODULE_3__.default.awake(e);
+    _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(e);
   }
 
   /**
@@ -583,7 +658,7 @@ class Engine {
   setGravity(g) {
     this.g = g;
     for (const id in this.entities) {
-      _sleep__WEBPACK_IMPORTED_MODULE_3__.default.awake(this.entities[id]);
+      _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(this.entities[id]);
     }
   }
 
@@ -615,16 +690,16 @@ class Engine {
         e.v1 = {x: 0, y: 0};
 
         // Gravity (With workaround to support force issue)
-        if (this.g === 0) _sleep__WEBPACK_IMPORTED_MODULE_3__.default.awake(e);
+        if (this.g === 0) _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(e);
         if (!e.sleep) e.v.y += this.g;
 
         // Force fields
         this.forceFields.forEach(f => f.applyField(e));
 
         // Velocities update
-        e.v = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.vRound(e.v);
-        e.omega = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.round(e.omega);
-        _collision_collision__WEBPACK_IMPORTED_MODULE_2__.default.markBody(e);
+        e.v = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].vRound(e.v);
+        e.omega = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].round(e.omega);
+        _collision_collision__WEBPACK_IMPORTED_MODULE_2__["default"].markBody(e);
         e.x += e.v.x * delta //* this.loss;
         e.y += e.v.y * delta //* this.loss;
         e.orientation += e.omega * delta //* this.loss;
@@ -637,7 +712,7 @@ class Engine {
         e.v.x = 0;
         e.v.y = 0;
       }
-      _sleep__WEBPACK_IMPORTED_MODULE_3__.default.trySleep(e);
+      _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].trySleep(e);
       e.c = new Set();
     }
 
@@ -647,9 +722,9 @@ class Engine {
       let e = this.entities[id];
 
       // Find neighbours via tree spacial search
-      let myGrid = _grid__WEBPACK_IMPORTED_MODULE_0__.default.findGrid(this.grid, _grid__WEBPACK_IMPORTED_MODULE_0__.default.findLevel(e, 6, this.cfg.scale), e.x, e.y);
+      let myGrid = _grid__WEBPACK_IMPORTED_MODULE_0__["default"].findGrid(this.grid, _grid__WEBPACK_IMPORTED_MODULE_0__["default"].findLevel(e, 6, this.cfg.scale), e.x, e.y);
       if (!myGrid) continue;
-      let neighbours = _grid__WEBPACK_IMPORTED_MODULE_0__.default.findNeighbourPayloads(this.grid, myGrid);
+      let neighbours = _grid__WEBPACK_IMPORTED_MODULE_0__["default"].findNeighbourPayloads(this.grid, myGrid);
 
       for (let i = 0; i < neighbours.length; i++) {
       // for (const id2 in this.entities) {
@@ -658,7 +733,7 @@ class Engine {
         if (n.id !== e.id) {
           if (e.checked.has(n.id)) continue;
           workload++;
-          let pair = _collision_collision__WEBPACK_IMPORTED_MODULE_2__.default.handle(e, n, delta);
+          let pair = _collision_collision__WEBPACK_IMPORTED_MODULE_2__["default"].handle(e, n, delta);
           pair && pairs.push(pair);
           !this.refreshGrid(e) && toRm.push(e);
           !this.refreshGrid(n) && toRm.push(n);
@@ -682,8 +757,8 @@ class Engine {
           var sleepingBody = (body1.sleep && !body1.static) ? body1 : body2,
               movingBody = sleepingBody.id === body1.id ? body2 : body1;
 
-          if (!sleepingBody.static && movingBody.motion > _sleep__WEBPACK_IMPORTED_MODULE_3__.default.motionAwakeThreshold) {
-            _sleep__WEBPACK_IMPORTED_MODULE_3__.default.awake(sleepingBody);
+          if (!sleepingBody.static && movingBody.motion > _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].motionAwakeThreshold) {
+            _sleep__WEBPACK_IMPORTED_MODULE_3__["default"].awake(sleepingBody);
           }
       }
     }
@@ -717,12 +792,12 @@ class Engine {
 /*!***************************!*\
   !*** ./src/forceField.js ***!
   \***************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ ForceField
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return ForceField; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
 
 
@@ -746,12 +821,12 @@ class ForceField {
 /*!*********************!*\
   !*** ./src/grid.js ***!
   \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Grid
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Grid; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
 
 
@@ -824,7 +899,7 @@ class Grid {
   }
 
   search(x, y, id) {
-    if (!_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(x, this.boundary[0], this.boundary[1]) || !_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(y, this.boundary[2], this.boundary[3])) {
+    if (!_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(x, this.boundary[0], this.boundary[1]) || !_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(y, this.boundary[2], this.boundary[3])) {
       throw 'Entity out of bound'
     }
     if (this.isLeaf()) {
@@ -890,11 +965,11 @@ class Grid {
     let ox = this.boundary[0];
     let oy = this.boundary[2];
     let w = (this.boundary[1] - this.boundary[0])/2;
-    if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.x, ox, ox+w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.y, oy, oy+w)) {
+    if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.x, ox, ox+w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.y, oy, oy+w)) {
       return 0;
-    } else if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.x, ox+w, ox+2*w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.y, oy, oy+w)) {
+    } else if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.x, ox+w, ox+2*w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.y, oy, oy+w)) {
       return 1;
-    } else if (_libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.x, ox, ox+w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.isBetween(e.y, oy+w, oy+2*w)){
+    } else if (_libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.x, ox, ox+w) && _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].isBetween(e.y, oy+w, oy+2*w)){
       return 2;
     } else {
       return 3;
@@ -994,23 +1069,26 @@ class Grid {
 /*!**********************!*\
   !*** ./src/index.js ***!
   \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: Engine, Shapes, Util, ForceField */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "Engine": () => /* reexport safe */ _engine__WEBPACK_IMPORTED_MODULE_0__.default,
-/* harmony export */   "Shapes": () => /* binding */ Shapes,
-/* harmony export */   "Util": () => /* reexport safe */ _libs_util__WEBPACK_IMPORTED_MODULE_5__.default,
-/* harmony export */   "ForceField": () => /* reexport safe */ _forceField__WEBPACK_IMPORTED_MODULE_7__.default
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "Shapes", function() { return Shapes; });
 /* harmony import */ var _engine__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./engine */ "./src/engine.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Engine", function() { return _engine__WEBPACK_IMPORTED_MODULE_0__["default"]; });
+
 /* harmony import */ var _shapes_circle__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./shapes/circle */ "./src/shapes/circle.js");
 /* harmony import */ var _shapes_polygon__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./shapes/polygon */ "./src/shapes/polygon.js");
 /* harmony import */ var _shapes_rectangle__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./shapes/rectangle */ "./src/shapes/rectangle.js");
 /* harmony import */ var _shapes_hexagon__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./shapes/hexagon */ "./src/shapes/hexagon.js");
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "Util", function() { return _libs_util__WEBPACK_IMPORTED_MODULE_5__["default"]; });
+
 /* harmony import */ var _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./shapes/regpoly */ "./src/shapes/regpoly.js");
 /* harmony import */ var _forceField__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./forceField */ "./src/forceField.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "ForceField", function() { return _forceField__WEBPACK_IMPORTED_MODULE_7__["default"]; });
+
 
 
 
@@ -1021,11 +1099,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var Shapes = {
-  Circle: _shapes_circle__WEBPACK_IMPORTED_MODULE_1__.default,
-  Polygon: _shapes_polygon__WEBPACK_IMPORTED_MODULE_2__.default,
-  Rect: _shapes_rectangle__WEBPACK_IMPORTED_MODULE_3__.default,
-  Hexagon: _shapes_hexagon__WEBPACK_IMPORTED_MODULE_4__.default,
-  RegPoly: _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__.default,
+  Circle: _shapes_circle__WEBPACK_IMPORTED_MODULE_1__["default"],
+  Polygon: _shapes_polygon__WEBPACK_IMPORTED_MODULE_2__["default"],
+  Rect: _shapes_rectangle__WEBPACK_IMPORTED_MODULE_3__["default"],
+  Hexagon: _shapes_hexagon__WEBPACK_IMPORTED_MODULE_4__["default"],
+  RegPoly: _shapes_regpoly__WEBPACK_IMPORTED_MODULE_6__["default"],
 }
 
 
@@ -1036,12 +1114,12 @@ var Shapes = {
 /*!**************************!*\
   !*** ./src/libs/util.js ***!
   \**************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Util
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Util; });
 // General physics math lib
 class Util {
   /**
@@ -1612,12 +1690,12 @@ class Util {
 /*!*********************!*\
   !*** ./src/pair.js ***!
   \*********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Pair
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Pair; });
 /**
  * Collision pair
  */
@@ -1637,17 +1715,17 @@ class Pair {
 /*!******************************!*\
   !*** ./src/shapes/circle.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Circle
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Circle; });
 /* harmony import */ var _entity__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./entity */ "./src/shapes/entity.js");
 
 
 // Generic class for circle bodies
-class Circle extends _entity__WEBPACK_IMPORTED_MODULE_0__.default {
+class Circle extends _entity__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(cfg) {
     super(cfg);
 
@@ -1687,12 +1765,12 @@ class Circle extends _entity__WEBPACK_IMPORTED_MODULE_0__.default {
 /*!******************************!*\
   !*** ./src/shapes/entity.js ***!
   \******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Entity
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Entity; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/util */ "./src/libs/util.js");
 
 
@@ -1713,7 +1791,7 @@ class Entity {
     this.color = cfg.color;
 
     // Linear velocity (Random between -5 and 5 if not provided)
-    this.v = cfg.v? Object.assign({}, cfg.v) : _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.normalize({x: Math.random() - 0.5, y: Math.random() - 0.5}, 10);
+    this.v = cfg.v? Object.assign({}, cfg.v) : _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].normalize({x: Math.random() - 0.5, y: Math.random() - 0.5}, 10);
 
     // Angular velocity
     this.omega = cfg.omega || 0;
@@ -1786,27 +1864,27 @@ class Entity {
 /*!*******************************!*\
   !*** ./src/shapes/hexagon.js ***!
   \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Hexagon
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Hexagon; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/util */ "./src/libs/util.js");
 /* harmony import */ var _polygon__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./polygon */ "./src/shapes/polygon.js");
 
 
 
-class Hexagon extends _polygon__WEBPACK_IMPORTED_MODULE_1__.default {
+class Hexagon extends _polygon__WEBPACK_IMPORTED_MODULE_1__["default"] {
   constructor(cfg) {
     let sqrt3 = Math.sqrt(3);
     cfg.vertices = [
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r, y: 0}),
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r/2, y: -sqrt3*cfg.r/2}),
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r/2, y: -sqrt3*cfg.r/2}),
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r, y: 0}),
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r/2, y: sqrt3*cfg.r/2}),
-      _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r/2, y: sqrt3*cfg.r/2})
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r, y: 0}),
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r/2, y: -sqrt3*cfg.r/2}),
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r/2, y: -sqrt3*cfg.r/2}),
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r, y: 0}),
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: -cfg.r/2, y: sqrt3*cfg.r/2}),
+      _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].vAdd({x:cfg.x, y:cfg.y}, {x: cfg.r/2, y: sqrt3*cfg.r/2})
     ];
     super(cfg);
     this.r = cfg.r;
@@ -1819,19 +1897,19 @@ class Hexagon extends _polygon__WEBPACK_IMPORTED_MODULE_1__.default {
 /*!*******************************!*\
   !*** ./src/shapes/polygon.js ***!
   \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Polygon
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Polygon; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../libs/util */ "./src/libs/util.js");
 /* harmony import */ var _entity__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./entity */ "./src/shapes/entity.js");
 
 
 
 // Generic class for polygon bodies (Experimental for non-convex ones)
-class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__.default {
+class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__["default"] {
   constructor(cfg) {
     super(cfg);
 
@@ -1839,13 +1917,13 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__.default {
     this.vertices = cfg.vertices;
 
     // Using mass center as its position
-    let centroid = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getPolyCentroid(this.vertices);
+    let centroid = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getPolyCentroid(this.vertices);
     this.x = centroid.x;
     this.y = centroid.y;
     this.type = "P";
 
     // Assuming same density
-    this.inertia = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.getPolyInertia(this.m, this.vertices);
+    this.inertia = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].getPolyInertia(this.m, this.vertices);
 
     // Convert vertices to local coordinates
     this.vertices.forEach((pt) => {
@@ -1854,7 +1932,7 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__.default {
     });
 
     // 'Radius' for a polygon defined as the max distance from center to a vertex
-    this.bound = Math.max(...this.vertices.map(v => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.dist(v, {x:0, y:0})));
+    this.bound = Math.max(...this.vertices.map(v => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].dist(v, {x:0, y:0})));
   }
 
   /**
@@ -1877,11 +1955,11 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__.default {
   }
 
   getVerticesWorldBuffer() {
-    return this.vertices.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.toWorldPosition(v, this.orientation, this.x1, this.y1));
+    return this.vertices.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].toWorldPosition(v, this.orientation, this.x1, this.y1));
   }
 
   getVerticesWorld() {
-    return this.vertices.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.toWorldPosition(v, this.orientation, this.x, this.y));
+    return this.vertices.map((v) => _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].toWorldPosition(v, this.orientation, this.x, this.y));
   }
 
   getVerticesWorldNoRot() {
@@ -1897,16 +1975,16 @@ class Polygon extends _entity__WEBPACK_IMPORTED_MODULE_1__.default {
 /*!*********************************!*\
   !*** ./src/shapes/rectangle.js ***!
   \*********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Rect
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Rect; });
 /* harmony import */ var _polygon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polygon */ "./src/shapes/polygon.js");
 
 
-class Rect extends _polygon__WEBPACK_IMPORTED_MODULE_0__.default {
+class Rect extends _polygon__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(cfg) {
     let vertices = cfg.vertices || [
       {x: cfg.x-cfg.w/2, y: cfg.y-cfg.h/2},
@@ -1927,12 +2005,12 @@ class Rect extends _polygon__WEBPACK_IMPORTED_MODULE_0__.default {
 /*!*******************************!*\
   !*** ./src/shapes/regpoly.js ***!
   \*******************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ RegPoly
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return RegPoly; });
 /* harmony import */ var _polygon__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./polygon */ "./src/shapes/polygon.js");
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../libs/util */ "./src/libs/util.js");
 
@@ -1941,7 +2019,7 @@ __webpack_require__.r(__webpack_exports__);
 /**
  * Creates regular polygon with n sides
  */
-class RegPoly extends _polygon__WEBPACK_IMPORTED_MODULE_0__.default {
+class RegPoly extends _polygon__WEBPACK_IMPORTED_MODULE_0__["default"] {
   constructor(cfg) {
     // this.sides = cfg.sides || 4;
     // this.r = cfg.r || 20;
@@ -1952,7 +2030,7 @@ class RegPoly extends _polygon__WEBPACK_IMPORTED_MODULE_0__.default {
     let pt = {x: 0, y: 0 - cfg.r};
     let vertices = [pt];
     for (let i = 1; i < cfg.sides; i++) {
-      pt = _libs_util__WEBPACK_IMPORTED_MODULE_1__.default.mRot(step, pt);
+      pt = _libs_util__WEBPACK_IMPORTED_MODULE_1__["default"].mRot(step, pt);
       vertices.push(pt);
     }
     vertices = vertices.map((pt) => {
@@ -1969,12 +2047,12 @@ class RegPoly extends _polygon__WEBPACK_IMPORTED_MODULE_0__.default {
 /*!**********************!*\
   !*** ./src/sleep.js ***!
   \**********************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
 
+"use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => /* binding */ Sleep
-/* harmony export */ });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return Sleep; });
 /* harmony import */ var _libs_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./libs/util */ "./src/libs/util.js");
 
 
@@ -1986,7 +2064,7 @@ class Sleep {
   }
 
   static trySleep(entity) {
-    let speed = _libs_util__WEBPACK_IMPORTED_MODULE_0__.default.magnitude(entity.v);
+    let speed = _libs_util__WEBPACK_IMPORTED_MODULE_0__["default"].magnitude(entity.v);
     let motion = Math.pow(speed, 2) + Math.pow(entity.omega, 2);
     let bias = 0.2;
 
@@ -2031,65 +2109,5 @@ class Sleep {
 
 /***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __webpack_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		if(__webpack_module_cache__[moduleId]) {
-/******/ 			return __webpack_module_cache__[moduleId].exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		__webpack_modules__[moduleId](module, module.exports, __webpack_require__);
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/define property getters */
-/******/ 	(() => {
-/******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = (exports, definition) => {
-/******/ 			for(var key in definition) {
-/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
-/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
-/******/ 				}
-/******/ 			}
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	(() => {
-/******/ 		__webpack_require__.o = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-/******/ 	})();
-/******/ 	
-/******/ 	/* webpack/runtime/make namespace object */
-/******/ 	(() => {
-/******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = (exports) => {
-/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
-/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
-/******/ 			}
-/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
-/******/ 		};
-/******/ 	})();
-/******/ 	
-/************************************************************************/
-/******/ 	// module exports must be returned from runtime so entry inlining is disabled
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__("./src/index.js");
-/******/ })()
-;
+/******/ });
 });

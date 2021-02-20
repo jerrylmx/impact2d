@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Demo</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css"> -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> -->
+    <style>
+      .custom-select {
+        position: relative;
+        font-family: Arial;
+      }
+
+      .custom-select select {
+        display: none; /*hide original SELECT element:*/
+      }
+
+      .select-selected {
+        background-color: #00969b;
+      }
+
+      /*style the arrow inside the select element:*/
+      .select-selected:after {
+        position: absolute;
+        content: "";
+        top: 8px;
+        right: 10px;
+        width: 0;
+        height: 0;
+        border: 6px solid transparent;
+        border-color: #fff transparent transparent transparent;
+      }
+
+      /*point the arrow upwards when the select box is open (active):*/
+      .select-selected.select-arrow-active:after {
+        border-color: transparent transparent #fff transparent;
+        top: 0px;
+      }
+
+      /*style the items (options), including the selected item:*/
+      .select-items div,.select-selected {
+        color: #ffffff;
+        padding: 0px 10px;
+        border: 1px solid transparent;
+        border-color: transparent transparent rgba(0, 0, 0, 0.1) transparent;
+        cursor: pointer;
+        user-select: none;
+      }
+
+      /*style items (options):*/
+      .select-items {
+        position: absolute;
+        background-color: #00969b;
+        top: 100%;
+        left: 0;
+        right: 0;
+        z-index: 99;
+      }
+
+      /*hide the items when the select box is closed:*/
+      .select-hide {
+        display: none;
+      }
+
+      .select-items div:hover, .same-as-selected {
+        background-color: rgba(0, 0, 0, 0.1);
+      }
+
+      /* slider */
+      .slider {
+        -webkit-appearance: none;
+        height: 8px;
+        background: #00969b;
+        outline: none;
+        opacity: 0.7;
+        -webkit-transition: .2s;
+        transition: opacity .2s;
+      }
+
+      .slider:hover {
+        opacity: 1;
+      }
+
+      .slider::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 10px;
+        height: 10px;
+        background: #00f7ff;
+        cursor: pointer;
+      }
+
+      .slider::-moz-range-thumb {
+        width: 25px;
+        height: 25px;
+        background: #00f7ff;
+        cursor: pointer;
+      }
+
+      /* Checkbox */
+      .container {
+        display: block;
+        position: relative;
+        padding-left: 35px;
+        margin-bottom: 12px;
+        cursor: pointer;
+        font-size: 22px;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+      }
+
+      /* Hide the browser's default checkbox */
+      .container input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+      }
+
+      /* Create a custom checkbox */
+      .checkmark {
+        position: absolute;
+        top: 0;
+        left: 0;
+        height: 15px;
+        width: 15px;
+        background-color: #00969b;
+      }
+
+      /* On mouse-over, add a grey background color */
+      .container:hover input ~ .checkmark {
+        background-color: #00969b;
+      }
+
+      /* When the checkbox is checked, add a blue background */
+      .container input:checked ~ .checkmark {
+        background-color: #00969b;
+      }
+
+      /* Create the checkmark/indicator (hidden when not checked) */
+      .checkmark:after {
+        content: "";
+        position: absolute;
+        display: none;
+      }
+
+      /* Show the checkmark when checked */
+      .container input:checked ~ .checkmark:after {
+        display: block;
+      }
+
+      /* Style the checkmark/indicator */
+      .container .checkmark:after {
+        left: 4px;
+        top: 1px;
+        width: 3px;
+        height: 8px;
+        border: solid white;
+        border-width: 0 3px 3px 0;
+        -webkit-transform: rotate(45deg);
+        -ms-transform: rotate(45deg);
+        transform: rotate(45deg);
+      }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pixi.js/5.1.3/pixi.min.js"></script>
+    <script src="lib2d.js"></script>
+  </head>
+  <body style="background-color: black; font-family: Helvetica;; color: white;">
+    <div>
+      <div style="display: flex; justify-content: center; padding: 10px;">
+        <div style="display: flex; align-items: center;">
+          <label style="padding-right: 10px;">Scene:</label>
+          <div class="custom-select" style="width: 150px;">
+            <select name="scene" id="demo">
+              <option value="0">None</option>
+              <option value="1">Shapes-1</option>
+              <option value="2">Shapes-2</option>
+              <option value="3">Shapes-3</option>
+              <option value="a1">Stress-test-1</option>
+              <option value="a2">Stress-test-2</option>
+              <option value="a3">Stress-test-3</option>
+              <option value="a4">Stress-test-4</option>
+              <option value="a5">Stress-test-5</option>
+              <option value="a6">Stress-test-6</option>
+              <option value="a7">Stress-test-7</option>
+              <option value="6">Bottle flip</option>
+              <option value="7">Bounceness</option>
+              <option value="8">Black hole</option>
+              <option value="9">PoolBall</option>
+              <option value="10">Bubble</option>
+              <option value="11">Stack</option>
+            </select>
+          </div>
+        </div>
+        <!-- <div style="display: flex; align-items: center; padding-left: 20px;">
+          <label>Debug:</label>
+          <label class="container" style="margin-left: 10px;">
+            <input type="checkbox" id="debug">
+            <span class="checkmark"></span>
+          </label>
+        </div> -->
+        <div style="display: flex; justify-content: center; padding: 10px;">
+          <div style="display: flex; align-items: center; padding-left: 40px;">
+            <label id='count' style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 120px;padding-left: 5px;">
+              Bodies: 0
+            </label>
+          </div>
+        </div>
+        <div style="display: flex; align-items: center; padding-left: 40px;">
+          <label id='fps' style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 60px;padding-left: 5px;">
+            0
+          </label>
+        </div>
+        <div style="display: flex; align-items: center; padding-left: 40px;">
+          <label id='checks' style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 170px;padding-left: 5px;">
+            0
+          </label>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center; padding: 10px;">
+        <div style="display: flex; align-items: center;">
+          <label id="refresh" class="btn" style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 55px;margin-left: 5px;">
+            Refresh
+          </label>
+          <label id="pause" class="btn" style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 45px;margin-left: 5px;">
+            Pause
+          </label>
+          <label id="bomb" class="btn" style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 45px;margin-left: 5px;">
+            Bomb
+          </label>
+          <label id="add" class="btn" style="border-style: solid;border-width: 2px;border-radius: 4px;border-color: #00969b;padding: 1px;display: block;width: 70px;margin-left: 5px;">
+            Add Body
+          </label>
+        </div>
+      </div>
+
+      <div style="display: flex; justify-content: center;" id="scene-container">
+      </div>
+    </div>
+    <script src="demo.js"></script>
+  </body>
+</html>
