@@ -51,12 +51,3 @@ Copy library code main.js from ./dist folder
 
 - Maintained a Quadtree for storing spacial data for efficient search and thus good performance.
 - Built-in renders for fast drawing on the canvas.
-
-## Acknowledgements
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
