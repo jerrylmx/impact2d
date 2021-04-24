@@ -4,6 +4,10 @@ This is a light wight 2d physics engine for web development. Gives reasonable ph
 
 [Demo](https://collide2d.web.app)
 
+### Download
+
+npm i impact2d
+
 ### Usage
 
 Very simple to use and configure.
