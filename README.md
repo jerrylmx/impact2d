@@ -55,3 +55,7 @@ Copy library code main.js from ./dist folder
 
 - Maintained a Quadtree for storing spacial data for efficient search and thus good performance.
 - Built-in renders for fast drawing on the canvas.
+
+
+### Details & Observations
+https://jerrylmx.github.io/jliu/views/impact.html
